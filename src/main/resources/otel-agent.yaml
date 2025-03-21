@@ -1,0 +1,64 @@
+otel:
+  exporter:
+    otlp:
+      endpoint: "http://172.25.40.108:4317"
+  resource:
+    attributes: "machine_id=machine-1234,server_name=client-server"
+
+#receivers:
+#  otlp:
+#    protocols:
+##      grpc: {}
+#      http:
+#        endpoint: 0.0.0.0:4317
+##  filelog:
+##    include: ["/var/log/myapp.log"]   # 애플리케이션 로그 파일 경로
+##    operators:
+##      - type: json_parser
+##        parse_from: ""
+##        flatten: true
+##      - type: json_parser
+##        parse_from: response.body
+##        target: response_body_parsed
+##        flatten: true
+##      - type: regex_parser
+##        parse_from: "request.headers.traceparent"
+##        regex: "^(?P<version>[0-9a-fA-F]{2})-(?P<traceId>[0-9a-fA-F]{32})-(?P<spanId>[0-9a-fA-F]{16})-(?P<traceFlags>[0-9a-fA-F]{2})$"
+#
+#
+#processors:
+#  attributes:
+#    actions:
+#      # 파일로그 및 기타 telemetry에 인덱싱용 라벨 추가
+#      - key: machine_id
+#        action: insert
+#        value: "machine-1234"
+#      - key: server_name
+#        action: insert
+#        value: "client-server"
+#      - key: tx_id
+#        action: update
+#        from_attribute: "response_body_parsed.txId"
+#      - key: trace_id
+#        action: update
+#        from_attribute: traceId
+#      - key: span_id
+#        action: update
+#        from_attribute: spanId
+#
+#exporters:
+#  otlp:
+#    endpoint: "http://172.25.40.108:4317"   # client-side collector로 전송
+#
+#service:
+#  pipelines:
+#    logs:
+#      receivers: [filelog]
+#      processors: [attributes]
+#      exporters: [otlp]
+#    metrics:
+#      receivers: [otlp]
+#      exporters: [otlp]
+#    traces:
+#      receivers: [otlp]
+#      exporters: [otlp]
